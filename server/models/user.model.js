@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-import { screen } from '@testing-library/react';
 
 
 const bcrypt = require('bcrypt');
@@ -30,7 +29,7 @@ const userSchema = mongoose.Schema({
     },
     role:{
         type:String,
-        enum: ['user','behzades'],
+        enum: ['user','admin'],
         default:'user',
     },
     firstname: {
@@ -54,8 +53,6 @@ const userSchema = mongoose.Schema({
     //timestamps: true,
     //collection: "Players"  //changes the name of the schema
 });
-
-
 
 
 const User = mongoose.model('User', userSchema);
