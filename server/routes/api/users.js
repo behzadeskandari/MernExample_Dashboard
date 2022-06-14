@@ -1,5 +1,6 @@
  const express = require('express');
 const { checkLoggedIn } = require('../../middleware/auth');
+const { grantAccess } = require('../../middleware/roles');
 
  let router = express.Router();
 
@@ -64,10 +65,52 @@ router.route('/signin')
    }
 })
 
-router.route(checkLoggedIn,"/profile")
-.get( async (req,res) => {
+router.route("/profile")
+.get(checkLoggedIn,grantAccess('readOwn','profile'), async (req,res) => {
+   try{
+   
+
+   const permission = res.locals.permission;
+   const user = await User.findOne(req.user._id);
+   if(!user) return  res.status(400).json({message:"User not found"});
+
    console.log(req.user);
-   res.status(200).send("ok");
+
+   res.status(200).json(permission.filter(user._doc));
+   
+   }catch(error){
+
+
+      return res.status(400).send(error);
+   }
+
+})
+.patch(checkLoggedIn,grantAccess('updateOwn','profile'), async (req,res) => {
+      try {
+         const user = await User.findOneAndUpdate(
+            {_id:req.user._id},
+            {
+               "$set": {
+                  firstname: req.body.firstname,
+                  lastname: req.body.lastname,
+                  age: req.body.age,
+               }
+            },
+            {new : true}
+         )
+         if(!user) return res.status(400).json({message:"user not found"})
+
+         res.status(200).json(getUserProps(user))
+
+      } catch (error) {
+         return res.status(400).json({message:"Problem  Updating", error:error})
+      }
+
+})
+
+router.route('/isauth')
+.get(checkLoggedIn,async (req,res) => {
+   res.status(200).send(getUserProps(req.user))
 })
 
 const getUserProps = (user) => {

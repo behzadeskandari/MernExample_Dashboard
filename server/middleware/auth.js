@@ -29,7 +29,7 @@ exports.checkToken = async(req,res,next) => {
 
 exports.checkLoggedIn = (req,res,next) => {
     const user = res.locals.userData;
-    if(!user) return res.status(401).json({error: "No User."});
+    if(!user) return res.status(401).json({error: "No User Found Please Log in."});
 
     req.user = user;
     next();
