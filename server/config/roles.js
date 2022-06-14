@@ -1,10 +1,20 @@
 const AccessControl = require('accesscontrol');
 
+
+
+let adminglobal = {
+    'create:any': ['*'],
+    'read:any': ['*'],
+    'update:any': ['*'],
+    'delete:any': ['*'],
+}
+
 let grantObject = {
     admin: {
-        profile: {
+        profile:adminglobal,
+        article:{
             'create:any': ['*'],
-            'read:any': ['*'],
+            'read:any':   ['*'],
             'update:any': ['*'],
             'delete:any': ['*'],
         }
