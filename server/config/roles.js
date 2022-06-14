@@ -12,12 +12,16 @@ let adminglobal = {
 let grantObject = {
     admin: {
         profile:adminglobal,
+        
+        articles:{
+            'read:any': ['*'],
+        },
         article:{
             'create:any': ['*'],
             'read:any':   ['*'],
             'update:any': ['*'],
             'delete:any': ['*'],
-        }
+        },
     },
     user: {
         profile: {
