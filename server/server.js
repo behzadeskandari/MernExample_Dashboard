@@ -13,7 +13,7 @@ const articles = require('./routes/api/articles');
 const {checkToken} = require('./middleware/auth');
 
 const mongoUri = "mongodb+srv://admin:behzades@dashboard.gx5xfvb.mongodb.net/?retryWrites=true&w=majority";
-
+const cors = require('cors');
 mongoose.connect(mongoUri,{
     useNewUrlParser: true,
     useUnifiedTopology:true,
@@ -21,6 +21,7 @@ mongoose.connect(mongoUri,{
     useFindAndModify:false,
 })
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(checkToken)
 app.use("/api/users",users);
