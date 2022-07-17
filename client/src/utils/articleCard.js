@@ -13,7 +13,7 @@ import {
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 
-const ArticleCard = () => {
+const ArticleCard = ({article}) => {
     return (
         <Card>
             <CardMedia style={{height: 0,padding:'56.25%'}} 
@@ -22,18 +22,17 @@ const ArticleCard = () => {
             />
             <CardContent>
                 <Typography variant="h5" component="h2">
-                    some title
+                    {article.title}
                 </Typography>
-                <Typography variant="body" component="p">
-                    some Long Text Like Lorem Ipsum Test 
-                    Just Like A Real Text Long And Beatiful Your Gonna Like It 
+                <Typography variant="body1" component="p">
+                    {article.excerpt}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton>
                     <FavoriteIcon/>
                 </IconButton>
-                <Button size='small' color="primary" component={RouterLink} to={`/article/id`}>
+                <Button size='small' color="primary" component={RouterLink} to={`/article/${article._id}`}>
                     View Article
                 </Button>
             </CardActions>

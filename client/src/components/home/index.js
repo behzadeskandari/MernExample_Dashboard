@@ -17,31 +17,35 @@ const Home = () => {
   const articles = useSelector(state => state.articles);
   
   const dispatch = useDispatch();
-  console.log(articles,'articles'); 
+  // console.log(articles,'articles'); 
   useEffect(() => {
     if(articles && !articles.articles){
       dispatch(getArticles(initialSort))
     }
   },[dispatch,articles])
+
+  // console.log(articles,'articles2');
+
   return (
     <div style={{fontfamily: 'Fredoka One'}}>
         <div>
           CARROUSEL
         </div>
         <Grid container spacing={2} className="article_card">
-            <Grid key={1} item xs={12} sm={6} lg={3}>
-              <ArticleCard />
-            </Grid>
-            <Grid key={1} item xs={12} sm={6} lg={3}>
-              <ArticleCard />
-            </Grid>
-            <Grid key={1} item xs={12} sm={6} lg={3}>
-              <ArticleCard />
-            </Grid>
-            <Grid key={1} item xs={12} sm={6} lg={3}>
-              <ArticleCard />
-            </Grid>
+            {articles && articles.articles ? articles.articles.map((item)=> (
+                  <Grid key={item._id} item xs={12} sm={6} lg={3}>
+                  <ArticleCard key={item._id} article={item}/>
+                  </Grid>
+            )) : null}
+           
         </Grid>
+        <button onClick={() => {
+          let skip = sort.skip + sort.limit;
+          dispatch(getArticles({...sort,skip: skip}));
+          setSort({skip:skip})
+        }}>
+          Load More
+        </button>
     </div>
   )
 }
