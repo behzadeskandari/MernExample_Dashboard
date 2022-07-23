@@ -1,50 +1,54 @@
-import React, {useReducer, useEffect } from 'react';
+import React,{ useReducer, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import ArticleCard from '../../utils/articleCard';
 
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch,useSelector } from 'react-redux';
 import { getArticles } from '../../store/actions/article_actions';
+
 
 const initialSort = {sortBy:"_id",order:"desc",limit:8,skip:0};
 
 const Home = () => {
   const [sort,setSort] = useReducer(
-    (state,newState) => ({...state, ...newState}),
+    (state, newState) => ({...state,...newState}),
     initialSort
-  ) 
-
+  );
   const articles = useSelector(state => state.articles);
-  
   const dispatch = useDispatch();
-  // console.log(articles,'articles'); 
-  useEffect(() => {
+  
+  useEffect(()=>{
+    // trigger only on first render
     if(articles && !articles.articles){
+      ///dispatch 
       dispatch(getArticles(initialSort))
     }
-  },[dispatch,articles])
+  },[dispatch,articles]);
 
-  // console.log(articles,'articles2');
+  
 
-  return (
-    <div style={{fontfamily: 'Fredoka One'}}>
+
+  return(
+    <div>
         <div>
           CARROUSEL
         </div>
         <Grid container spacing={2} className="article_card">
-            {articles && articles.articles ? articles.articles.map((item)=> (
-                  <Grid key={item._id} item xs={12} sm={6} lg={3}>
-                  <ArticleCard key={item._id} article={item}/>
-                  </Grid>
-            )) : null}
-           
+          { articles && articles.articles ?
+            articles.articles.map((item)=>(
+            <Grid key={item._id} item xs={12} sm={6} lg={3}>
+              <ArticleCard key={item._id} article={item} />
+            </Grid>
+            ))
+          :null}
         </Grid>
-        <button onClick={() => {
-          let skip = sort.skip + sort.limit;
-          dispatch(getArticles({...sort,skip: skip}));
-          setSort({skip:skip})
-        }}>
-          Load More
+        <button
+          onClick={()=>{
+            let skip = sort.skip + sort.limit;
+            dispatch(getArticles({...sort,skip:skip}));
+            setSort({skip:skip})
+          }}
+        >
+            Load more
         </button>
     </div>
   )

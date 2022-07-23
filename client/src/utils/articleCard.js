@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link as RouterLink} from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import {
     Card,
     CardMedia,
@@ -9,35 +9,37 @@ import {
     Typography,
     Button
 } from '@material-ui/core';
-
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 
 const ArticleCard = ({article}) => {
-    return (
+
+    return(
         <Card>
-            <CardMedia style={{height: 0,padding:'56.25%'}} 
+            <CardMedia
+                style={{ height:0,paddingTop:'56.25%'}}
                 image="https://picsum.photos/200"
                 title="some title"
             />
             <CardContent>
-                <Typography variant="h5" component="h2">
-                    {article.title}
+                <Typography gutterBottom variant="h5" component="h2">
+                    { article.title}
                 </Typography>
-                <Typography variant="body1" component="p">
-                    {article.excerpt}
+                <Typography variant="body2" component="p">
+                   { article.excerpt }
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton>
                     <FavoriteIcon/>
                 </IconButton>
-                <Button size='small' color="primary" component={RouterLink} to={`/article/${article._id}`}>
-                    View Article
+                <Button size="small" color="primary" component={RouterLink} to={`/article/${article._id}`}>
+                    View article
                 </Button>
             </CardActions>
         </Card>
     )
 }
+
 
 export default ArticleCard;
